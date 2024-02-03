@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Restaurant.Server.Data;
 using Restaurant.Server.Models;
 using Microsoft.AspNetCore.Identity;
+using Restaurant.Server.IRepository;
+using Restaurant.Server.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddIdentityServer()
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -4,7 +4,7 @@ using Restaurant.Shared;
 
 namespace Restaurant.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
