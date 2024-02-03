@@ -1,0 +1,69 @@
+﻿@page "/tables/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Restaurant Tables</h3>
+
+@if (Tables == null)
+{
+    <div class="alert alert-info">Loading Tables...</div>
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Table Number</th>
+                <th>Table Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var table in Tables)
+            {
+                <tr>
+                    <td>@table.TableID</td>
+                    <td>@table.TableCapacity</td>
+                    <td>
+                        <a href="/tables/view/@table.TableID" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/tables/view/@table.TableID" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(table.TableID))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private List<Table>? Tables;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Tables = await _client.GetFromJsonAsync<List<Table>>($"{Endpoints.TablesEndpoint}");
+    }
+
+    async Task Delete(int tableId)
+    {
+        if(Tables != null)
+        {
+            var table = Tables.First(q => q.TableID == tableId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete this row?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.TablesEndpoint}/{tableId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

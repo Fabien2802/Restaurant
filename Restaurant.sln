@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant.Server", "Restaurant\Server\Restaurant.Server.csproj", "{36223955-02DB-4928-9536-E85FEDA22480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Server", "Restaurant\Server\Restaurant.Server.csproj", "{36223955-02DB-4928-9536-E85FEDA22480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant.Client", "Restaurant\Client\Restaurant.Client.csproj", "{ADF07AC3-2380-4C82-8A01-6AD05EB83E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Client", "Restaurant\Client\Restaurant.Client.csproj", "{ADF07AC3-2380-4C82-8A01-6AD05EB83E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant.Shared", "Restaurant\Shared\Restaurant.Shared.csproj", "{34A00F6E-09D1-4CB0-B6CD-181246122EAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Shared", "Restaurant\Shared\Restaurant.Shared.csproj", "{34A00F6E-09D1-4CB0-B6CD-181246122EAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

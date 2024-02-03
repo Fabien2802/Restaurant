@@ -1,0 +1,73 @@
+﻿@page "/items/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Restaurant Items</h3>
+
+@if (Items == null)
+{
+    <div class="alert alert-info">Loading Items...</div>
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+                <th>Item Menu</th>
+                <th>Item Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    <td>@item.ItemName</td>
+                    <td>@item.ItemPrice</td>
+                    <td>@item.ItemMenu</td>
+                    <td>@item.ItemQuantity</td>
+                    <td>
+                        <a href="/Items/view/@item.ItemID" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/Items/view/@item.ItemID" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(item.ItemID))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private List<Item>? Items;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Items = await _client.GetFromJsonAsync<List<Item>>($"{Endpoints.ItemsEndpoint}");
+    }
+
+    async Task Delete(int itemId)
+    {
+        if (Items != null)
+        {
+            var item = Items.First(q => q.ItemID == itemId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete this row?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.ItemsEndpoint}/{itemId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

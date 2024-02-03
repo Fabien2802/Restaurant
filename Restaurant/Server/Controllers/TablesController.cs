@@ -27,17 +27,17 @@ namespace Restaurant.Server.Controllers
         // GET: api/Tables
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<Table>>> GetTables()
-        public async Task<IActionResult> GetMakes()
+        public async Task<IActionResult> GetTables()
         {
             //return await _context.Tables.ToListAsync();
-            var makes = await _unitOfWork.Tables.GetAll();
-            return Ok(makes);
+            var tables = await _unitOfWork.Tables.GetAll();
+            return Ok(tables);
         }
 
         // GET: api/Tables/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Table>> GetTable(int id)
-        public async Task<IActionResult> GetMake(int id)
+        public async Task<IActionResult> GetTable(int id)
         {
             //var table = await _context.Tables.FindAsync(id);
             var table = await _unitOfWork.Tables.Get(q => q.TableID == id);

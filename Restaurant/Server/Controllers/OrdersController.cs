@@ -27,17 +27,17 @@ namespace Restaurant.Server.Controllers
         // GET: api/Orders
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
-        public async Task<IActionResult> GetMakes()
+        public async Task<IActionResult> GetOrders()
         {
             //return await _context.Orders.ToListAsync();
-            var makes = await _unitOfWork.Orders.GetAll();
-            return Ok(makes);
+            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Items));
+            return Ok(orders);
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Order>> GetOrder(int id)
-        public async Task<IActionResult> GetMake(int id)
+        public async Task<IActionResult> GetOrder(int id)
         {
             //var Order = await _context.Orders.FindAsync(id);
             var Order = await _unitOfWork.Orders.Get(q => q.OrderID == id);

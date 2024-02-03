@@ -1,0 +1,75 @@
+﻿@page "/reservations/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Restaurant Reservations</h3>
+
+@if (Reservations == null)
+{
+    <div class="alert alert-info">Loading Reservations...</div>
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Reservation ID</th>
+                <th>Reservation Time</th>
+                <th>Reservation Status</th>
+                <th>Reservation Customer(which customer ordered)</th>
+                <th>Reservation Table(which table)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Reservations)
+            {
+                <tr>
+                    <td>@reservation.ReservationID</td>
+                    <td>@reservation.ReservationTime</td>
+                    <td>@reservation.ReservationStatus</td>
+                    <td>@reservation.Customer.CustomerName</td>
+                    <td>@reservation.Table.TableID</td>
+                    <td>
+                        <a href="/tables/view/@reservation.ReservationID" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/tables/view/@reservation.ReservationID" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.ReservationID))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private List<Reservation>? Reservations;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Reservations = await _client.GetFromJsonAsync<List<Reservation>>($"{Endpoints.ReservationsEndpoint}");
+    }
+
+    async Task Delete(int reservationId)
+    {
+        if (Reservations != null)
+        {
+            var reservation = Reservations.First(q => q.ReservationID == reservationId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete this row?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.ReservationsEndpoint}/{reservationId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

@@ -27,17 +27,17 @@ namespace Restaurant.Server.Controllers
         // GET: api/Staffs
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<Staff>>> GetStaffs()
-        public async Task<IActionResult> GetMakes()
+        public async Task<IActionResult> GetStaffs()
         {
             //return await _context.Staffs.ToListAsync();
-            var makes = await _unitOfWork.Staffs.GetAll();
-            return Ok(makes);
+            var staffs = await _unitOfWork.Staffs.GetAll();
+            return Ok(staffs);
         }
 
         // GET: api/Staffs/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Staff>> GetStaff(int id)
-        public async Task<IActionResult> GetMake(int id)
+        public async Task<IActionResult> GetStaff(int id)
         {
             //var Staff = await _context.Staffs.FindAsync(id);
             var Staff = await _unitOfWork.Staffs.Get(q => q.StaffID == id);
