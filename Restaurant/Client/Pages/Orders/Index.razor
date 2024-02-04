@@ -5,6 +5,13 @@
 
 <h3 class="card-title">Restaurant Orders</h3>
 
+<a href="/orders/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Orders
+</a>
+<br />
+<br />
+
 @if (Orders == null)
 {
     <div class="alert alert-info">Loading Orders...</div>
@@ -16,8 +23,8 @@ else
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Order Status</th>
-                <th>Order Item Name(What items it have)</th>
+                <th>Order Items</th>
+                <th>Reservation ID</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,8 +33,8 @@ else
             {
                 <tr>
                     <td>@order.OrderID</td>
-                    <td>@order.OrderStatus</td>
                     <td>@order.Items.ItemName</td>
+                    <td>@order.Reservations.ReservationID</td>
                     <td>
                         <a href="/Orders/view/@order.OrderID" class="btn btn-primary">
                             <span class="oi oi-book"></span>

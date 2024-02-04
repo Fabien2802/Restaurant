@@ -20,7 +20,6 @@ namespace Restaurant.Server.Repository
         private IGenericRepository<Item> _items;
         private IGenericRepository<Order> _orders;
         private IGenericRepository<Reservation> _reservations;
-        private IGenericRepository<Sale> _sales;
         private IGenericRepository<Staff> _staffs;
         private IGenericRepository<Table> _tables;
 
@@ -40,8 +39,6 @@ namespace Restaurant.Server.Repository
             => _orders ??= new GenericRepository<Order>(_context);
         public IGenericRepository<Reservation> Reservations
             => _reservations ??= new GenericRepository<Reservation>(_context);
-        public IGenericRepository<Sale> Sales
-            => _sales ??= new GenericRepository<Sale>(_context);
         public IGenericRepository<Staff> Staffs
             => _staffs ??= new GenericRepository<Staff>(_context);
         public IGenericRepository<Shared.Domain.Table> Tables

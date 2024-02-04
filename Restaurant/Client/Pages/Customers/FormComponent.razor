@@ -1,0 +1,38 @@
+﻿<EditForm Model="@customer" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="customer.CustomerName" class="form-control" />
+            <ValidationMessage For="@(() => customer.CustomerName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Contact: </label>
+        <div>
+            <InputText @bind-Value="customer.CustomerContact" class="form-control" pattern="[0-9]{8}" title="Please enter a valid number with a maximum length of 8 digits" />
+            <ValidationMessage For="@(() => customer.CustomerContact)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Email: </label>
+        <div>
+            <InputText @bind-Value="customer.CustomerEmail" class="form-control" input type="email" title="Please enter a valid email address" required />
+            <ValidationMessage For="@(() => customer.CustomerEmail)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter] public Customer? customer { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

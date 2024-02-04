@@ -1,0 +1,69 @@
+﻿@page "/orders/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Orders</h3>
+<hr />
+<br />
+
+<EditForm Model="@order" OnValidSubmit="CreateOrder">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Items: </label>
+        <div>
+            <InputSelect @bind-Value="order.ItemID" class="form-control">
+                <option value="">-- Select Item --</option>
+                @if (Items != null)
+                {
+                    foreach (var item in Items)
+                    {
+                        <option value="@item.ItemID">@item.ItemName</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => order.ItemID)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Reservations: </label>
+        <div>
+            <InputSelect @bind-Value="order.ReservationID" class="form-control">
+                <option value="">-- Select Reservation--</option>
+                @if (Reservations != null)
+                {
+                    foreach (var reservation in Reservations)
+                    {
+                        <option value="@reservation.ReservationID">@reservation.ReservationID</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => order.ReservationID)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Order
+    </button>
+</EditForm>
+
+@code {
+    Order order = new Order();
+
+    private IList<Item> Items;
+    private IList<Reservation> Reservations;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Items = await _client.GetFromJsonAsync<List<Item>>($"{Endpoints.ItemsEndpoint}");
+        Reservations = await _client.GetFromJsonAsync<List<Reservation>>($"{Endpoints.ReservationsEndpoint}");
+    }
+
+    private async Task CreateOrder()
+    {
+        await _client.PostAsJsonAsync(Endpoints.OrdersEndpoint, order);
+        _navManager.NavigateTo("/orders/");
+    }
+}

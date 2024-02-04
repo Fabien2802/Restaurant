@@ -3,7 +3,16 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
+
+
 <h3 class="card-title">Restaurant Tables</h3>
+
+<a href="/tables/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Table
+</a>
+<br />
+<br />
 
 @if (Tables == null)
 {
@@ -30,7 +39,7 @@ else
                         <a href="/tables/view/@table.TableID" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/tables/view/@table.TableID" class="btn btn-warning">
+                        <a href="/tables/edit/@table.TableID" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(table.TableID))">

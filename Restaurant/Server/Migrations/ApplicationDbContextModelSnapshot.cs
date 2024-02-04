@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.Server.Data;
 
 #nullable disable
 
-namespace Restaurant.Server.Data.Migrations
+namespace Restaurant.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240203092720_AddedDefaultDataAndUser")]
-    partial class AddedDefaultDataAndUser
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,7 +396,7 @@ namespace Restaurant.Server.Data.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d96daff1-6f71-4b87-a80b-b79a4c47b20c",
+                            ConcurrencyStamp = "c3057aed-c583-4448-b158-cbfdcf6b8f9d",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -407,9 +404,9 @@ namespace Restaurant.Server.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPSJVnhRij/db7w/9b5dQcyJHfIIkKovEsshHc8lmxNwc1jiRagnod0Mg7uaNCFrjA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENz4maUaA7zWakBToDwhOERozjDMOcPXRQZBsWaXApmE6AqEoO2s519/Zh9j/FlyOA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3d376e01-8968-44c5-9b96-29ec56a90320",
+                            SecurityStamp = "7e42d12d-0e7b-4ec7-a53b-876697377e42",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -457,12 +454,7 @@ namespace Restaurant.Server.Data.Migrations
                     b.Property<int>("ItemQuantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("StaffID")
-                        .HasColumnType("int");
-
                     b.HasKey("ItemID");
-
-                    b.HasIndex("StaffID");
 
                     b.ToTable("Items");
                 });
@@ -484,13 +476,7 @@ namespace Restaurant.Server.Data.Migrations
                     b.Property<DateTime>("OrderDateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReservationID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StaffID")
+                    b.Property<int>("ReservationID")
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
@@ -498,8 +484,6 @@ namespace Restaurant.Server.Data.Migrations
                     b.HasIndex("ItemID");
 
                     b.HasIndex("ReservationID");
-
-                    b.HasIndex("StaffID");
 
                     b.ToTable("Orders");
                 });
@@ -512,8 +496,8 @@ namespace Restaurant.Server.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("ReservationDateChoice")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ReservationDateCreated")
                         .HasColumnType("datetime2");
@@ -521,54 +505,17 @@ namespace Restaurant.Server.Data.Migrations
                     b.Property<DateTime>("ReservationDateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ReservationStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ReservationTime")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StaffID")
-                        .HasColumnType("int");
 
                     b.Property<int>("TableID")
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
 
-                    b.HasIndex("CustomerID");
-
-                    b.HasIndex("StaffID");
-
                     b.HasIndex("TableID");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Sale", b =>
-                {
-                    b.Property<int>("SaleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleID"));
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReservationDateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReservationDateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("SaleTotalAmount")
-                        .HasColumnType("float");
-
-                    b.HasKey("SaleID");
-
-                    b.HasIndex("OrderID");
-
-                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("Restaurant.Shared.Domain.Staff", b =>
@@ -580,6 +527,9 @@ namespace Restaurant.Server.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffID"));
 
                     b.Property<string>("StaffContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffEmail")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StaffName")
@@ -667,17 +617,6 @@ namespace Restaurant.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Restaurant.Shared.Domain.Item", b =>
-                {
-                    b.HasOne("Restaurant.Shared.Domain.Staff", "Staff")
-                        .WithMany("Items")
-                        .HasForeignKey("StaffID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Staff");
-                });
-
             modelBuilder.Entity("Restaurant.Shared.Domain.Order", b =>
                 {
                     b.HasOne("Restaurant.Shared.Domain.Item", "Items")
@@ -686,77 +625,26 @@ namespace Restaurant.Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Restaurant.Shared.Domain.Reservation", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ReservationID");
-
-                    b.HasOne("Restaurant.Shared.Domain.Staff", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("StaffID");
+                    b.HasOne("Restaurant.Shared.Domain.Reservation", "Reservations")
+                        .WithMany()
+                        .HasForeignKey("ReservationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Items");
+
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("Restaurant.Shared.Domain.Reservation", b =>
                 {
-                    b.HasOne("Restaurant.Shared.Domain.Customer", "Customer")
-                        .WithMany("Reservations")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Restaurant.Shared.Domain.Staff", "Staff")
-                        .WithMany("Reservations")
-                        .HasForeignKey("StaffID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Restaurant.Shared.Domain.Table", "Table")
                         .WithMany()
                         .HasForeignKey("TableID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
-
-                    b.Navigation("Staff");
-
                     b.Navigation("Table");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Sale", b =>
-                {
-                    b.HasOne("Restaurant.Shared.Domain.Order", "Orders")
-                        .WithMany("Sales")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Customer", b =>
-                {
-                    b.Navigation("Reservations");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Order", b =>
-                {
-                    b.Navigation("Sales");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Reservation", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Restaurant.Shared.Domain.Staff", b =>
-                {
-                    b.Navigation("Items");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

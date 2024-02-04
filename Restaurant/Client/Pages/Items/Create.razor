@@ -1,0 +1,58 @@
+﻿@page "/items/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Items</h3>
+<hr />
+<br />
+
+<EditForm Model="@item" OnValidSubmit="CreateItem">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name: </label>
+        <div>
+            <InputText @bind-Value="item.ItemName" class="form-control" />
+            <ValidationMessage For="@(() => item.ItemName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Price: </label>
+        <div>
+            <InputNumber @bind-Value="item.ItemPrice" class="form-control" />
+            <ValidationMessage For="@(() => item.ItemPrice)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Menu: </label>
+        <div>
+            <InputText @bind-Value="item.ItemMenu" class="form-control" />
+            <ValidationMessage For="@(() => item.ItemMenu)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Quantity: </label>
+        <div>
+            <InputNumber @bind-Value="item.ItemQuantity" class="form-control" />
+            <ValidationMessage For="@(() => item.ItemQuantity)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Item
+    </button>
+</EditForm>
+
+@code {
+    Item item = new Item();
+
+    private async Task CreateItem()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ItemsEndpoint, item);
+        _navManager.NavigateTo("/items/");
+    }
+}

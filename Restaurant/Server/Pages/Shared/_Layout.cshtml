@@ -2,32 +2,67 @@
 @using Microsoft.AspNetCore.Mvc.ViewEngines
 @inject IWebHostEnvironment Environment
 @inject ICompositeViewEngine Engine
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Restaurant.Server</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/Identity/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"
-              asp-fallback-href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
-    </environment>
+    <style>
+        body {
+            background-image: url('images/.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid #fff;
+        }
+
+        .navbar-brand, .navbar-toggler-icon {
+            color: #fff;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* Styles for the login area */
+        .login-area {
+            background-color: #283c63; /* Dark blue background color for the login area */
+            color: white; /* Text color for better contrast */
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add more styles as needed */
+    </style>
+
+    <!-- Your existing style and script links -->
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="~/">Restaurant.Server</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -41,8 +76,8 @@
                     else
                     {
                         throw new InvalidOperationException("The default Identity UI layout requires a partial view '_LoginPartial' " +
-                            "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
-                            $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
+                        "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
+                        $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
                     }
                 </div>
             </div>
@@ -52,12 +87,16 @@
     <div class="container">
         <partial name="_CookieConsentPartial" optional />
         <main role="main" class="pb-1">
-            @RenderBody()
+            <!-- Login area with the new styles -->
+            <div class="login-area">
+                @RenderBody()
+            </div>
         </main>
     </div>
-    <footer class="footer border-top pl-3 text-muted">
+
+    <footer class="footer">
         <div class="container">
-        &copy; 2024 - Restaurant.Server
+            &copy; 2024 - Restaurant.Server
             @{
                 var foundPrivacy = Url.Page("/Privacy", new { area = "" });
             }
@@ -68,27 +107,7 @@
         </div>
     </footer>
 
-    <environment include="Development">
-        <script src="~/Identity/lib/jquery/dist/jquery.js"></script>
-        <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-                asp-fallback-src="~/Identity/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj">
-        </script>
-        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
-    </environment>
-
+    <!-- Your existing script links -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

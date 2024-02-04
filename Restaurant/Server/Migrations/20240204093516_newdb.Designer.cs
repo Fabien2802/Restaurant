@@ -9,11 +9,11 @@ using Restaurant.Server.Data;
 
 #nullable disable
 
-namespace Restaurant.Server.Data.Migrations
+namespace Restaurant.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240203085530_AddNameToUser")]
-    partial class AddNameToUser
+    [Migration("20240204093516_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -191,6 +191,20 @@ namespace Restaurant.Server.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -280,6 +294,13 @@ namespace Restaurant.Server.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -372,6 +393,180 @@ namespace Restaurant.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c3057aed-c583-4448-b158-cbfdcf6b8f9d",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAENz4maUaA7zWakBToDwhOERozjDMOcPXRQZBsWaXApmE6AqEoO2s519/Zh9j/FlyOA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7e42d12d-0e7b-4ec7-a53b-876697377e42",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Customer", b =>
+                {
+                    b.Property<int>("CustomerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
+
+                    b.Property<string>("CustomerContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CustomerID");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Item", b =>
+                {
+                    b.Property<int>("ItemID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemID"));
+
+                    b.Property<string>("ItemMenu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ItemPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ItemQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemID");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderDateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("OrderDateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReservationID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("ItemID");
+
+                    b.HasIndex("ReservationID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Reservation", b =>
+                {
+                    b.Property<int>("ReservationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
+
+                    b.Property<DateTime>("ReservationDateChoice")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReservationDateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReservationDateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReservationTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TableID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReservationID");
+
+                    b.HasIndex("TableID");
+
+                    b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Staff", b =>
+                {
+                    b.Property<int>("StaffID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffID"));
+
+                    b.Property<string>("StaffContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StaffRole")
+                        .HasColumnType("int");
+
+                    b.HasKey("StaffID");
+
+                    b.ToTable("Staffs");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Table", b =>
+                {
+                    b.Property<int>("TableID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableID"));
+
+                    b.Property<int>("TableCapacity")
+                        .HasColumnType("int");
+
+                    b.HasKey("TableID");
+
+                    b.ToTable("Tables");
+
+                    b.HasData(
+                        new
+                        {
+                            TableID = 1,
+                            TableCapacity = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -423,6 +618,36 @@ namespace Restaurant.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Order", b =>
+                {
+                    b.HasOne("Restaurant.Shared.Domain.Item", "Items")
+                        .WithMany()
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Restaurant.Shared.Domain.Reservation", "Reservations")
+                        .WithMany()
+                        .HasForeignKey("ReservationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Items");
+
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Restaurant.Shared.Domain.Reservation", b =>
+                {
+                    b.HasOne("Restaurant.Shared.Domain.Table", "Table")
+                        .WithMany()
+                        .HasForeignKey("TableID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Table");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,13 @@
 
 <h3 class="card-title">Restaurant Reservations</h3>
 
+<a href="/reservations/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Reservation
+</a>
+<br />
+<br />
+
 @if (Reservations == null)
 {
     <div class="alert alert-info">Loading Reservations...</div>
@@ -17,9 +24,8 @@ else
             <tr>
                 <th>Reservation ID</th>
                 <th>Reservation Time</th>
-                <th>Reservation Status</th>
-                <th>Reservation Customer(which customer ordered)</th>
-                <th>Reservation Table(which table)</th>
+                <th>Reservation Date</th>
+                <th>Reservation Table</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -29,14 +35,13 @@ else
                 <tr>
                     <td>@reservation.ReservationID</td>
                     <td>@reservation.ReservationTime</td>
-                    <td>@reservation.ReservationStatus</td>
-                    <td>@reservation.Customer.CustomerName</td>
+                    <td>@reservation.ReservationDateChoice</td>
                     <td>@reservation.Table.TableID</td>
                     <td>
                         <a href="/tables/view/@reservation.ReservationID" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/tables/view/@reservation.ReservationID" class="btn btn-warning">
+                        <a href="/reservations/edit/@reservation.ReservationID" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.ReservationID))">

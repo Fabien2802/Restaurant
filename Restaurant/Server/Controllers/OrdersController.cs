@@ -30,7 +30,7 @@ namespace Restaurant.Server.Controllers
         public async Task<IActionResult> GetOrders()
         {
             //return await _context.Orders.ToListAsync();
-            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Items));
+            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Items).Include(x => x.Reservations));
             return Ok(orders);
         }
 

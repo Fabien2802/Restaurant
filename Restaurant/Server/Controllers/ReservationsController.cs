@@ -30,7 +30,7 @@ namespace Restaurant.Server.Controllers
         public async Task<IActionResult> GetReservations()
         {
             //return await _context.Reservations.ToListAsync();
-            var reservations = await _unitOfWork.Reservations.GetAll(includes: q => q.Include(x => x.Table).Include(x => x.Customer));
+            var reservations = await _unitOfWork.Reservations.GetAll(includes: q => q.Include(x => x.Table));
             return Ok(reservations);
         }
 

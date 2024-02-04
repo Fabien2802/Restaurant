@@ -21,7 +21,6 @@ namespace Restaurant.Server.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Sale> Sales { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Table> Tables { get; set; }
 

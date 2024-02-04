@@ -1,0 +1,22 @@
+﻿<EditForm Model="@table" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Capacity: </label>
+        <div>
+            <InputNumber @bind-Value="table.TableCapacity" class="form-control" />
+            <ValidationMessage For="@(() => table.TableCapacity)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter] public Table? table { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

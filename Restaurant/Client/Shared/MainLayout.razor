@@ -1,18 +1,114 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<!-- Add your CSS link for custom styles -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+<style>
+    /* Add custom styles for the background image */
+    .container-fluid.new-layout {
+        /* Set the background image URL */
+        background-image: url('images/wood.jpg');
+        /* Set background size to cover the entire container */
+        background-size: cover;
+        /* Set background position to center */
+        background-position: center;
+        /* Set a fixed height or use 100% for full height */
+        height: 100vh; /* 100% of viewport height */
+    }
+
+    .dropdown-menu-dark a {
+        color: black !important;
+    }
+
+    /* Additional styling if needed */
+    /* ... */
+
+</style>
+
+<div class="container-fluid new-layout">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">F&A Restaurant</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Move "About Us" to the right -->
+                <li class="nav-item">
+                    <a class="nav-link" href="items">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Reservation">Reservation</a>
+                </li>
+                <!-- Use the AuthenticationState parameter to check user authentication state -->
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    Profile
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="authentication/profile">View Profile</a></li>
+                                    <!-- Add more profile-related links as needed -->
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" @onclick="BeginLogOut">Logout</a>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <a class="nav-link" href="authentication/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="authentication/register">Register</a>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+                <!-- Add the StaffRole button -->
+                <li class="nav-item">
+                    <a class="nav-link" href="StaffRole">StaffRole</a>
+                </li>
+                <!-- Reorder "About Us", "Login", and "Register" -->
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            About Us
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="/AboutUs">Overview</a></li>
+                            <li><a class="dropdown-item" href="/mission">Mission</a></li>
+                            <li><a class="dropdown-item" href="/vision">Vision</a></li>
+                            <li><a class="dropdown-item" href="/contactus">Contact Us</a></li>
+                            <!-- Add more About Us-related links as needed -->
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Add alert messages for reminders -->
+    <div class="alert alert-primary" role="alert">
+        Welcome to F&A Restaurant! Explore our menu and make a reservation for a delightful dining experience.
     </div>
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
+    <main class="content">
+        @Body
     </main>
 </div>
+
+@code {
+    private void BeginLogOut(MouseEventArgs args)
+    {
+        Navigation.NavigateToLogout("authentication/logout", "/");
+    }
+}
+
+<!-- Add your JavaScript scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

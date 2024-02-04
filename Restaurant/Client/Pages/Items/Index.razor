@@ -5,6 +5,13 @@
 
 <h3 class="card-title">Restaurant Items</h3>
 
+<a href="/items/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Items
+</a>
+<br />
+<br />
+
 @if (Items == null)
 {
     <div class="alert alert-info">Loading Items...</div>
@@ -34,7 +41,7 @@ else
                         <a href="/Items/view/@item.ItemID" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/Items/view/@item.ItemID" class="btn btn-warning">
+                        <a href="/Items/edit/@item.ItemID" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(item.ItemID))">

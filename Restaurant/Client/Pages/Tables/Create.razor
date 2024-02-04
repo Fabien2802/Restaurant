@@ -1,0 +1,35 @@
+﻿@page "/tables/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Tables</h3>
+<hr />
+<br />
+
+<EditForm Model="@table" OnValidSubmit="CreateTable">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Capacity: </label>
+        <div>
+            <InputNumber @bind-Value="table.TableCapacity" class="form-control" />
+            <ValidationMessage For="@(() => table.TableCapacity)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Table
+    </button>
+</EditForm>
+
+@code {
+    Table table = new Table();
+
+    private async Task CreateTable()
+    {
+        await _client.PostAsJsonAsync(Endpoints.TablesEndpoint, table);
+        _navManager.NavigateTo("/tables/");
+    }
+}
+

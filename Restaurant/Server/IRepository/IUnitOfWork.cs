@@ -14,7 +14,6 @@ namespace Restaurant.Server.IRepository
         IGenericRepository<Item> Items { get; }
         IGenericRepository<Order> Orders { get; }
         IGenericRepository<Reservation> Reservations { get; }
-        IGenericRepository<Sale> Sales { get; }
         IGenericRepository<Staff> Staffs { get; }
         IGenericRepository<Table> Tables { get; }
     }
